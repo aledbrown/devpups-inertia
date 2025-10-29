@@ -13,15 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::firstOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'aledb@mac.com'],
             [
-                'name' => 'Test User',
+                'name' => 'Aled Brown',
                 'password' => 'password',
                 'email_verified_at' => now(),
             ]
         );
+
+        $this->call(PuppySeeder::class);
     }
 }
