@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Puppy;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class PuppySeeder extends Seeder
 {
@@ -14,49 +15,32 @@ class PuppySeeder extends Seeder
     public function run(): void
     {
 
+        $puppies = [
+            ['name' => 'Frisket', 'trait' => 'Mother of all pups', 'image' => '1.jpg'],
+            ['name' => 'Chase', 'trait' => 'Very good boi', 'image' => '2.jpg'],
+            ['name' => 'Leia', 'trait' => 'Enjoys naps', 'image' => '3.jpg'],
+            ['name' => 'Pupi', 'trait' => 'Loves cheese', 'image' => '4.jpg'],
+            ['name' => 'Russ', 'trait' => 'Ready to save the world', 'image' => '5.jpg'],
+            ['name' => 'Yoko', 'trait' => 'Ready for anything', 'image' => '6.jpg'],
+        ];
+
         $user = User::first();
 
-        Puppy::create([
-            'name' => 'Frisket',
-            'trait' => 'Mother of all pups',
-            'image_url' => '/images/1.jpg',
-            'user_id' => $user->id,
-        ]);
+        foreach ($puppies as $puppy) {
+            Puppy::create([
+                'user_id' => $user->id,
+                'name' => $puppy['name'],
+                'trait' => $puppy['trait'],
+                'image_url' => Storage::url('puppies/'.$puppy['image']),
+            ]);
+        }
 
-        Puppy::create([
-            'name' => 'Chase',
-            'trait' => 'Very good boi',
-            'image_url' => '/images/2.jpg',
-            'user_id' => $user->id,
-        ]);
-
-        Puppy::create([
-            'name' => 'Leia',
-            'trait' => 'Enjoys naps',
-            'image_url' => '/images/3.jpg',
-            'user_id' => $user->id,
-        ]);
-
-        Puppy::create([
-            'name' => 'Pupi',
-            'trait' => 'Loves cheese',
-            'image_url' => '/images/4.jpg',
-            'user_id' => $user->id,
-        ]);
-
-        Puppy::create([
-            'name' => 'Russ',
-            'trait' => 'Ready to save the world',
-            'image_url' => '/images/5.jpg',
-            'user_id' => $user->id,
-        ]);
-
-        Puppy::create([
-            'name' => 'Yoko',
-            'trait' => 'Ready for anything',
-            'image_url' => '/images/6.jpg',
-            'user_id' => $user->id,
-        ]);
+        // Puppy::create([
+        //     'name' => 'Yoko',
+        //     'trait' => 'Ready for anything',
+        //     'image_url' => '/images/6.jpg',
+        //     'user_id' => $user->id,
+        // ]);
 
     }
 }
