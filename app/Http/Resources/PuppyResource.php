@@ -20,7 +20,8 @@ class PuppyResource extends JsonResource
             'name' => $this->name,
             'trait' => $this->trait,
             'imageUrl' => $this->image_url,
-            'user' => UserResource::make($this->whenLoaded('user'))->resolve(),
+            'likedBy' => UserResource::collection($this->whenLoaded('likedBy'))->pluck('id'),
+            'user' => UserResource::make($this->whenLoaded('user')),
         ];
     }
 }

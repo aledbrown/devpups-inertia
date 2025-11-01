@@ -16,7 +16,7 @@ export default function App({puppies} : {puppies: Puppy[]}) {
         <PageWrapper>
             <Container>
                 <Header />
-                {/*<pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>*/}
+                <pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>
                 {/*{console.log(JSON.stringify(puppies, null, 2))}*/}
                 <ul className="flex gap-4 flex-wrap mt-4">
                     {puppies.map((puppy) => (
