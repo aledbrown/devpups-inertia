@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { Puppy } from "../types";
+import { Puppy } from "@/types";
 import { Heart, Loader, LoaderCircle, X } from "lucide-react";
-import { toggleLikedStatus } from "../queries";
+import { toggleLikedStatus } from "@/queries";
 
 export function Shortlist({
   puppies,
