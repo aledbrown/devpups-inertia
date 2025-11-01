@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Heart, LoaderCircle } from 'lucide-react';
 import { Puppy, SharedData } from '@/types';
-import { toggleLikedStatus } from '@/queries';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import puppies from '@/routes/puppies';
 
 export function LikeToggle({
     puppy,
@@ -15,21 +15,11 @@ export function LikeToggle({
     const { auth } = usePage<SharedData>().props;
 
     return (
-        <button
+        <Link
+            method={'patch'}
+            href={puppies.like(puppy.id)}
             className={`group ${auth.user ? 'cursor-pointer' : 'cursor-not-allowed'}`}
             disabled={!auth?.user}
-            onClick={async () => {
-                setPending(true);
-                const updatedPuppy = await toggleLikedStatus(puppy.id);
-                setPuppies((prevPups) => {
-                    return prevPups.map((existingPuppy) =>
-                        existingPuppy.id === updatedPuppy.id
-                            ? updatedPuppy
-                            : existingPuppy,
-                    );
-                });
-                setPending(false);
-            }}
         >
             {pending ? (
                 <LoaderCircle className="animate-spin stroke-slate-300" />
@@ -42,6 +32,6 @@ export function LikeToggle({
                     }
                 />
             )}
-        </button>
+        </Link>
     );
 }
