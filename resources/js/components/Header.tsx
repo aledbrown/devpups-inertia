@@ -45,6 +45,11 @@ export function Header() {
                 <p className="text-slate-600">
                     Don't take our word — let the pictures do the talking :)
                 </p>
+                {!auth.user && (
+                    <p className="text-slate-600">
+                        <Link className="text-blue-500 hover:underline" href={login()}>Log in</Link> to keep track of your favorite puppies and add new ones!
+                    </p>
+                )}
             </div>
         </header>
     );
