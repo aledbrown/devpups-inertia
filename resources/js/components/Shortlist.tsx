@@ -1,14 +1,18 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Puppy } from '@/types';
+import { Puppy, SharedData } from '@/types';
 import { Heart, LoaderCircle, X } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { like } from '@/routes/puppies';
 
 export function Shortlist({
     puppies,
-    setPuppies,
+    // setPuppies,
 }: {
     puppies: Puppy[];
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
+    // setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 }) {
+    const { auth } = usePage<SharedData>().props;
+
     return (
         <div>
             <h2 className="flex items-center gap-2 font-medium">
@@ -17,7 +21,7 @@ export function Shortlist({
             </h2>
             <ul className="mt-4 flex flex-wrap gap-4">
                 {puppies
-                    .filter((pup) => pup.likedBy.includes(1))
+                    .filter((pup) => pup.likedBy.includes(auth.user?.id))
                     .map((puppy) => (
                         <li
                             key={puppy.id}
@@ -35,7 +39,6 @@ export function Shortlist({
                             </p>
                             <DeleteButton
                                 id={puppy.id}
-                                setPuppies={setPuppies}
                             />
                         </li>
                     ))}
@@ -46,14 +49,14 @@ export function Shortlist({
 
 function DeleteButton({
     id,
-    setPuppies,
 }: {
     id: Puppy['id'];
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 }) {
     const [pending, setPending] = useState(false);
     return (
-        <button
+        <Link
+            method={'patch'}
+            // href={like(puppy.id)}
             // onClick={async () => {
             //     setPending(true);
             //     const updatedPuppy = await toggleLikedStatus(id);
@@ -74,6 +77,6 @@ function DeleteButton({
             ) : (
                 <X className="size-4 stroke-slate-400 group-hover:stroke-red-400" />
             )}
-        </button>
+        </Link>
     );
 }

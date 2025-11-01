@@ -37,15 +37,13 @@ function Main({ pups }: { pups: Puppy[] }) {
                     setSearchQuery={setSearchQuery}
                 />
                 {auth.user && (
-                    <Shortlist puppies={puppies} setPuppies={setPuppies} />
+                    <Shortlist puppies={pups} />
                 )}
             </div>
-            <PuppiesList
-                searchQuery={searchQuery}
-                puppies={puppies}
-                setPuppies={setPuppies}
-            />
-            <NewPuppyForm puppies={puppies} setPuppies={setPuppies} />
+            <PuppiesList searchQuery={searchQuery} puppies={pups} />
+            {auth.user && (
+                <NewPuppyForm puppies={pups} setPuppies={setPuppies} />
+            )}
         </main>
     );
 }

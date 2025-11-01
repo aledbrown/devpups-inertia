@@ -1,23 +1,18 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from 'react';
 import { Heart, LoaderCircle } from 'lucide-react';
 import { Puppy, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import puppies from '@/routes/puppies';
+import { like } from '@/routes/puppies';
 
-export function LikeToggle({
-    puppy,
-    setPuppies,
-}: {
-    puppy: Puppy;
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
-}) {
+export function LikeToggle({ puppy }: { puppy: Puppy }) {
     const [pending, setPending] = useState(false);
     const { auth } = usePage<SharedData>().props;
 
     return (
         <Link
+            preserveScroll
             method={'patch'}
-            href={puppies.like(puppy.id)}
+            href={like(puppy.id)}
             className={`group ${auth.user ? 'cursor-pointer' : 'cursor-not-allowed'}`}
             disabled={!auth?.user}
         >
