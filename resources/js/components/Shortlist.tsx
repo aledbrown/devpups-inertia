@@ -52,18 +52,6 @@ function DeleteButton({ puppy }: { puppy: Puppy }) {
             preserveScroll
             method={'patch'}
             href={like(puppy.id)}
-            // onClick={async () => {
-            //     setPending(true);
-            //     const updatedPuppy = await toggleLikedStatus(id);
-            //     setPuppies((prevPups) => {
-            //         return prevPups.map((existingPuppy) =>
-            //             existingPuppy.id === updatedPuppy.id
-            //                 ? updatedPuppy
-            //                 : existingPuppy,
-            //         );
-            //     }); // works if api returns just the updated puppy
-            //     setPending(false);
-            // }}
             className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"
             disabled={pending}
         >
