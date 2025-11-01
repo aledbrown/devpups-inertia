@@ -18,15 +18,15 @@ export default function App({ puppies }: { puppies: Puppy[] }) {
             <Container>
                 <Header />
                 {/*<pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>*/}
-                <Main pups={puppies} />
+                <Main inertiaPuppies={puppies} />
             </Container>
         </PageWrapper>
     );
 }
 
-function Main({ pups }: { pups: Puppy[] }) {
+function Main({ inertiaPuppies }: { inertiaPuppies: Puppy[] }) {
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [puppies, setPuppies] = useState<Puppy[]>(pups);
+    const [puppies, setPuppies] = useState<Puppy[]>(inertiaPuppies);
     const { auth } = usePage<SharedData>().props;
 
     return (
@@ -37,12 +37,12 @@ function Main({ pups }: { pups: Puppy[] }) {
                     setSearchQuery={setSearchQuery}
                 />
                 {auth.user && (
-                    <Shortlist puppies={pups} />
+                    <Shortlist puppies={inertiaPuppies} />
                 )}
             </div>
-            <PuppiesList searchQuery={searchQuery} puppies={pups} />
+            <PuppiesList puppies={inertiaPuppies} searchQuery={searchQuery} />
             {auth.user && (
-                <NewPuppyForm puppies={pups} setPuppies={setPuppies} />
+                <NewPuppyForm puppies={inertiaPuppies} setPuppies={setPuppies} />
             )}
         </main>
     );

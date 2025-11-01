@@ -21,7 +21,7 @@ export function LikeToggle({ puppy }: { puppy: Puppy }) {
             ) : (
                 <Heart
                     className={
-                        puppy.likedBy.includes(1) && auth?.user
+                        puppy.likedBy.includes(auth?.user?.id) && auth?.user
                             ? 'fill-pink-500 stroke-none'
                             : 'stroke-slate-200 group-hover:stroke-slate-300'
                     }
