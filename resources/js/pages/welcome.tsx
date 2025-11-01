@@ -6,7 +6,8 @@ import { Shortlist } from '@/components/Shortlist';
 import { PuppiesList } from '@/components/PuppiesList';
 import { NewPuppyForm } from '@/components/NewPuppyForm';
 import { useState } from 'react';
-import { Puppy } from '@/types';
+import { Puppy, SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
 // import { LoaderCircle } from "lucide-react";
 // import { getPuppies } from "@/queries";
 // import { ErrorBoundary } from "react-error-boundary";
@@ -26,6 +27,7 @@ export default function App({ puppies }: { puppies: Puppy[] }) {
 function Main({ pups }: { pups: Puppy[] }) {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [puppies, setPuppies] = useState<Puppy[]>(pups);
+    const { auth } = usePage<SharedData>().props;
 
     return (
         <main>
@@ -34,7 +36,9 @@ function Main({ pups }: { pups: Puppy[] }) {
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                 />
-                <Shortlist puppies={puppies} setPuppies={setPuppies} />
+                {auth.user && (
+                    <Shortlist puppies={puppies} setPuppies={setPuppies} />
+                )}
             </div>
             <PuppiesList
                 searchQuery={searchQuery}
