@@ -37,9 +37,7 @@ export function Shortlist({
                             <p className="px-3 text-sm text-slate-800">
                                 {puppy.name}
                             </p>
-                            <DeleteButton
-                                id={puppy.id}
-                            />
+                            <DeleteButton puppy={puppy} />
                         </li>
                     ))}
             </ul>
@@ -47,16 +45,13 @@ export function Shortlist({
     );
 }
 
-function DeleteButton({
-    id,
-}: {
-    id: Puppy['id'];
-}) {
+function DeleteButton({ puppy }: { puppy: Puppy }) {
     const [pending, setPending] = useState(false);
     return (
         <Link
+            preserveScroll
             method={'patch'}
-            // href={like(puppy.id)}
+            href={like(puppy.id)}
             // onClick={async () => {
             //     setPending(true);
             //     const updatedPuppy = await toggleLikedStatus(id);
