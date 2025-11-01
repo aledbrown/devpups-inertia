@@ -1,16 +1,10 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Puppy, SharedData } from '@/types';
-import { Heart, LoaderCircle, X } from 'lucide-react';
-import { Link, usePage } from '@inertiajs/react';
 import { like } from '@/routes/puppies';
+import { Puppy, SharedData } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { Heart, LoaderCircle, X } from 'lucide-react';
+import { useState } from 'react';
 
-export function Shortlist({
-    puppies,
-    // setPuppies,
-}: {
-    puppies: Puppy[];
-    // setPuppies: Dispatch<SetStateAction<Puppy[]>>;
-}) {
+export function Shortlist({ puppies }: { puppies: Puppy[] }) {
     const { auth } = usePage<SharedData>().props;
 
     return (
@@ -45,14 +39,18 @@ export function Shortlist({
     );
 }
 
-function DeleteButton({ puppy }: { puppy: Puppy }) {
+export function DeleteButton({ puppy }: { puppy: Puppy }) {
     const [pending, setPending] = useState(false);
+
     return (
         <Link
             preserveScroll
             method={'patch'}
             href={like(puppy.id)}
             className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"
+            data-loading={pending}
+            onStart={() => setPending(true)}
+            onFinish={() => setPending(false)}
             disabled={pending}
         >
             {pending ? (
