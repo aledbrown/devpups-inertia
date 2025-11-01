@@ -16,16 +16,20 @@ export default function App({puppies} : {puppies: Puppy[]}) {
         <PageWrapper>
             <Container>
                 <Header />
-                <pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>
-                {/*<ul className="flex gap-4 flex-wrap mt-4">*/}
-                {/*    {puppies.map((puppy) => (*/}
-                {/*        <li key={puppy.id} className="bg-white p-6 ring ring-black/10 flex gap-2">*/}
-                {/*            <h2 className="text-black text-lg font-semibold">{puppy.name}</h2>*/}
-                {/*            <p className="text-sm text-muted-foreground">{puppy.trait}</p>*/}
-                {/*            <img src={puppy.image_url} alt={puppy.name} className="size-24 rounded-full object-cover"/>*/}
-                {/*        </li>*/}
-                {/*    ))}*/}
-                {/*</ul>*/}
+                {/*<pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>*/}
+                {/*{console.log(JSON.stringify(puppies, null, 2))}*/}
+                <ul className="flex gap-4 flex-wrap mt-4">
+                    {puppies.map((puppy) => (
+                        <li key={puppy.id} className="bg-white p-6 ring ring-black/10 flex gap-2">
+                            <div>
+                                <h2 className="text-black text-lg font-semibold">{puppy.name}</h2>
+                                <p className="text-sm text-muted-foreground">{puppy.trait}</p>
+                                <p className="mt-4 text-sm text-muted-foreground">Owned by: {puppy.user.name}</p>
+                            </div>
+                            <img src={puppy.imageUrl} alt={puppy.name} className="size-24 rounded-full object-cover"/>
+                        </li>
+                    ))}
+                </ul>
 
                 <ErrorBoundary fallbackRender={({ error }) => (
                     <div className="mt-12 bg-red-100 p-6 shadow ring ring-black/5">
