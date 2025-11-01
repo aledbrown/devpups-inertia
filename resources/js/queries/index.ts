@@ -1,5 +1,6 @@
-import { Puppy } from "../types";
+import { Puppy } from "@/types";
 
+/*
 export async function getPuppies() {
   try {
     const response = await fetch("http://devpups-api.test/api/puppies", {
@@ -17,6 +18,7 @@ export async function getPuppies() {
     throw error;
   }
 }
+*/
 
 export async function toggleLikedStatus(id: Puppy["id"]) {
   try {
