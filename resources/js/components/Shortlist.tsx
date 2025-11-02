@@ -1,6 +1,6 @@
 import { like } from '@/routes/puppies';
 import { Puppy, SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { Heart, LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -40,6 +40,34 @@ export function Shortlist({ puppies }: { puppies: Puppy[] }) {
 }
 
 export function DeleteButton({ puppy }: { puppy: Puppy }) {
+    const { auth } = usePage<SharedData>().props;
+    const { processing, patch } = useForm();
+
+    function submit(e: React.FormEvent) {
+        e.preventDefault();
+        patch(like(puppy.id).url, { preserveScroll: true });
+    }
+
+    return (
+        <form onSubmit={submit} className="h-full">
+            <button
+                className="group h-full cursor-pointer border-l border-slate-100 px-2 hover:bg-slate-100"
+                type="submit"
+                disabled={!auth.user || processing}
+                data-loading={processing ? true : undefined}
+            >
+                {processing ? (
+                    <LoaderCircle className="size-4 animate-spin stroke-slate-300" />
+                ) : (
+                    <X className="size-4 stroke-slate-400 group-hover:stroke-red-400" />
+                )}
+            </button>
+        </form>
+    );
+}
+
+/*
+export function DeleteButton({ puppy }: { puppy: Puppy }) {
     const [pending, setPending] = useState(false);
 
     return (
@@ -61,3 +89,4 @@ export function DeleteButton({ puppy }: { puppy: Puppy }) {
         </Link>
     );
 }
+*/
