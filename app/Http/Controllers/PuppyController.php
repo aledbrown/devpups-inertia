@@ -12,7 +12,7 @@ class PuppyController extends Controller
 {
     public function index()
     {
-        return Inertia::render('welcome', [
+        return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
             'puppies' => PuppyResource::collection(Puppy::get()->load(['user', 'likedBy'])),
         ]);

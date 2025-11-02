@@ -4,7 +4,7 @@ use App\Http\Controllers\PuppyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [PuppyController::class, 'index'])->name('puppy.index');
+Route::get('/', [PuppyController::class, 'index'])->name('home');
 
 // AUTH PROTECTED ROUTES
 Route::middleware(['auth', 'verified'])->group(function () {
