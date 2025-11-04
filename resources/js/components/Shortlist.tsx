@@ -1,8 +1,7 @@
 import { like } from '@/routes/puppies';
 import { Puppy, SharedData } from '@/types';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Heart, LoaderCircle, X } from 'lucide-react';
-import { useState } from 'react';
 
 export function Shortlist({ puppies }: { puppies: Puppy[] }) {
     const { auth } = usePage<SharedData>().props;

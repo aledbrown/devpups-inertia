@@ -1,32 +1,12 @@
-import type { Puppy } from '@/types';
 import { LikeToggle } from '@/components/LikeToggle';
+import type { Puppy } from '@/types';
 
-export function PuppiesList({
-    searchQuery,
-    puppies,
-}: {
-    searchQuery: string;
-    puppies: Puppy[];
-}) {
+export function PuppiesList({ puppies }: { puppies: Puppy[] }) {
     return (
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {puppies
-                .filter((puppy) => {
-                    return (
-                        puppy.name
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase()) ||
-                        puppy.trait
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase())
-                    );
-                })
-                .map((puppy) => (
-                    <PuppyCard
-                        key={puppy.id}
-                        puppy={puppy}
-                    />
-                ))}
+            {puppies.map((puppy) => (
+                <PuppyCard key={puppy.id} puppy={puppy} />
+            ))}
         </ul>
     );
 }

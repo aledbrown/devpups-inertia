@@ -1,40 +1,58 @@
-import { Dispatch, SetStateAction, useRef } from "react";
-import { Delete } from "lucide-react";
+import { router } from '@inertiajs/react';
+import { Delete } from 'lucide-react';
+import { useRef } from 'react';
+import { home } from '@/routes';
+import { Filters } from '@/types';
 
-export function Search({
-  searchQuery: searchQuery,
-  setSearchQuery: setSearchQuery,
-}: {
-  searchQuery: string;
-  setSearchQuery: Dispatch<SetStateAction<string>>;
-}) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  return (
-    <div>
-      <label htmlFor="search" className="font-medium">
-        Search for a character trait
-      </label>
-      <div className="mt-2 flex items-center gap-4">
-        <input
-          ref={inputRef}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          value={searchQuery}
-          placeholder="Search..."
-          name="search"
-          id="search"
-          type="text"
-          className="w-full max-w-80 bg-white px-4 py-2 ring ring-black/5 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-        />
-        <button
-          onClick={() => {
-            setSearchQuery("");
-            inputRef.current?.focus();
-          }}
-          className="inline-block rounded bg-cyan-300 px-4 py-2 !pr-3 !pl-2.5 font-medium text-cyan-900 hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-        >
-          <Delete />
-        </button>
-      </div>
-    </div>
-  );
+interface SearchProps {
+    filters?: Filters;
+}
+
+export function Search({ filters }: SearchProps) {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = e.currentTarget.value;
+
+        router.get(
+            home(),
+            {
+                search: value,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
+
+        inputRef.current?.focus();
+    }
+
+    return (
+        <div>
+            <label htmlFor="search" className="font-medium">
+                Search for a character trait
+            </label>
+            <div className="mt-2 flex items-center gap-4">
+                <input
+                    defaultValue={filters?.search}
+                    ref={inputRef}
+                    onChange={onSearchChange}
+                    placeholder="Search..."
+                    name="search"
+                    id="search"
+                    type="text"
+                    className="w-full max-w-80 bg-white px-4 py-2 ring ring-black/5 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                />
+                <button
+                    onClick={() => {
+                        inputRef.current?.focus();
+                    }}
+                    className="inline-block rounded bg-cyan-300 px-4 py-2 !pr-3 !pl-2.5 font-medium text-cyan-900 hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                >
+                    <Delete />
+                </button>
+            </div>
+        </div>
+    );
 }

@@ -10,11 +10,28 @@ use Laravel\Fortify\Features;
 
 class PuppyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
+        $query = Puppy::query();
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+            $query->orWhere('trait', 'like', "%{$search}%");
+        }
+        $query->with(['user', 'likedBy']);
+
+        $puppies = $query->get(); // ->paginate(12);
+
+        // dd(PuppyResource::collection($puppies));
+
         return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
-            'puppies' => PuppyResource::collection(Puppy::get()->load(['user', 'likedBy'])),
+            // 'puppies' => PuppyResource::collection(Puppy::get()->load(['user', 'likedBy'])),
+            'puppies' => PuppyResource::collection($puppies),
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 
@@ -22,6 +39,7 @@ class PuppyController extends Controller
     {
         sleep(1);
         $puppy->likedBy()->toggle($request->user()->id);
+
         return back();
     }
 }
