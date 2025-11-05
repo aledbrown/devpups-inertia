@@ -1,8 +1,9 @@
 import { router } from '@inertiajs/react';
 import { Delete } from 'lucide-react';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { home } from '@/routes';
 import { Filters } from '@/types';
+import { debounce } from 'lodash-es';
 
 interface SearchProps {
     filters?: Filters;
@@ -11,6 +12,9 @@ interface SearchProps {
 export function Search({ filters }: SearchProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
+
+
+/*
     function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.currentTarget.value;
 
@@ -27,6 +31,7 @@ export function Search({ filters }: SearchProps) {
 
         inputRef.current?.focus();
     }
+*/
 
     return (
         <div>
@@ -37,7 +42,18 @@ export function Search({ filters }: SearchProps) {
                 <input
                     defaultValue={filters?.search}
                     ref={inputRef}
-                    onChange={onSearchChange}
+                    onChange={debounce((e) => {
+                        router.get(
+                            home(),
+                            {
+                                search: e.target.value,
+                            },
+                            {
+                                preserveState: true,
+                                preserveScroll: true,
+                            },
+                        );
+                    }, 500)}
                     placeholder="Search..."
                     name="search"
                     id="search"
