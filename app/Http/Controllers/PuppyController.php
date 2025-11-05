@@ -21,13 +21,10 @@ class PuppyController extends Controller
         }
         $query->with(['user', 'likedBy']);
 
-        $puppies = $query->get(); // ->paginate(12);
-
-        // dd(PuppyResource::collection($puppies));
+        $puppies = $query->paginate(15);
 
         return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
-            // 'puppies' => PuppyResource::collection(Puppy::get()->load(['user', 'likedBy'])),
             'puppies' => PuppyResource::collection($puppies),
             'filters' => [
                 'search' => $search,

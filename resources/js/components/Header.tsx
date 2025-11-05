@@ -38,17 +38,21 @@ export function Header() {
                 )}
             </div>
             {/* Hero copy */}
-            <div className="mt-6">
-                <h1 className="text-lg font-bold">
-                    We've got the best puppies!
-                </h1>
-                <p className="text-slate-600">
-                    Don't take our word — let the pictures do the talking :)
-                </p>
-                {!auth.user && (
-                    <p className="text-slate-600 mt-4">
-                        <Link className="font-bold cursor-pointer underline hover:no-underline" href={login()}>Log in</Link> to keep track of your favorite puppies and add new ones!
+            <div className="mt-6 flex justify-between gap-4">
+                <div>
+                    <h1 className="text-lg font-bold">
+                        We've got the best puppies!
+                    </h1>
+                    <p className="text-slate-600">
+                        Don't take our word — let the pictures do the talking :)
                     </p>
+                </div>
+                {!auth.user && (
+                    <div>
+                        <p className="text-slate-600 mt-4">
+                            <Link className="font-bold cursor-pointer underline hover:no-underline" href={login()}>Log in</Link> to keep track of your favorite puppies.
+                        </p>
+                    </div>
                 )}
             </div>
         </header>

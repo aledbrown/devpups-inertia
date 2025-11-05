@@ -53,7 +53,7 @@ export function Search({ filters }: SearchProps) {
                                 preserveScroll: true,
                             },
                         );
-                    }, 500)}
+                    }, 300)}
                     placeholder="Search..."
                     name="search"
                     id="search"
