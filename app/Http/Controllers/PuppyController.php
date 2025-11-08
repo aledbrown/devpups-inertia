@@ -21,7 +21,7 @@ class PuppyController extends Controller
         }
         $query->with(['user', 'likedBy']);
 
-        $puppies = $query->paginate(15);
+        $puppies = $query->paginate(15)->withQueryString();
 
         return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
