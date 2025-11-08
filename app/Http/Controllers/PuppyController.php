@@ -34,7 +34,7 @@ class PuppyController extends Controller
 
     public function like(Request $request, Puppy $puppy)
     {
-        sleep(1);
+        // sleep(1);
         $puppy->likedBy()->toggle($request->user()->id);
 
         return back();
