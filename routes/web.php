@@ -11,6 +11,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Update Liked Puppy
     Route::patch('puppies/{puppy}/like', [PuppyController::class, 'like'])->name('puppies.like');
 
+    Route::post('puppies', [PuppyController::class, 'store'])->name('puppies.store');
+
     // Dashboard
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

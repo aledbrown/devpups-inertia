@@ -1,10 +1,18 @@
 import { useFormStatus } from 'react-dom';
+import { useForm } from '@inertiajs/react';
+import puppies from '@/routes/puppies';
 
 export function NewPuppyForm() {
+    const { post, errors  } = useForm();
     return (
         <div className="mt-12 flex items-center justify-between bg-white p-8 shadow ring ring-black/5">
             <form
-                onSubmit={() => {}}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    post(puppies.store().url, {
+                        preserveScroll: true
+                    });
+                }}
                 className="mt-4 flex w-full flex-col items-start gap-4"
             >
                 <div className="grid w-full gap-6 md:grid-cols-3">
@@ -29,13 +37,13 @@ export function NewPuppyForm() {
                         />
                     </fieldset>
                     <fieldset className="col-span-2 flex w-full flex-col gap-1">
-                        <label htmlFor="image_url">Profile pic</label>
+                        <label htmlFor="image">Profile pic</label>
                         <input
                             required
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
-                            id="image_url"
+                            id="image"
                             type="file"
-                            name="image_url"
+                            name="image"
                         />
                     </fieldset>
                 </div>

@@ -10,6 +10,10 @@ use Laravel\Fortify\Features;
 
 class PuppyController extends Controller
 {
+
+    /**
+     * Index
+     */
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -25,18 +29,28 @@ class PuppyController extends Controller
 
         return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
-            'puppies' => PuppyResource::collection($puppies),
-            'filters' => [
+            'puppies' => PuppyResource::collection($puppies), 'filters' => [
                 'search' => $search,
             ],
         ]);
     }
 
+    /**
+     * Like
+     */
     public function like(Request $request, Puppy $puppy)
     {
         // sleep(1);
         $puppy->likedBy()->toggle($request->user()->id);
 
         return back();
+    }
+
+    /**
+     * Store
+     */
+    public function store(Request $request)
+    {
+        dd($request->all());
     }
 }

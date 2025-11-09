@@ -12,27 +12,6 @@ interface SearchProps {
 export function Search({ filters }: SearchProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
-
-
-/*
-    function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.currentTarget.value;
-
-        router.get(
-            home(),
-            {
-                search: value,
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-            },
-        );
-
-        inputRef.current?.focus();
-    }
-*/
-
     return (
         <div>
             <label htmlFor="search" className="font-medium">
