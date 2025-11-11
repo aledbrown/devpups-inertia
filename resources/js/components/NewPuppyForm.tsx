@@ -2,13 +2,15 @@ import { useFormStatus } from 'react-dom';
 import { useForm } from '@inertiajs/react';
 import puppies from '@/routes/puppies';
 import InputError from '@/components/input-error';
+import { useRef } from 'react';
 
 export function NewPuppyForm() {
-    const { post, setData, data, errors } = useForm({
+    const { post, setData, data, errors, reset } = useForm({
         name: '',
         trait: '',
         image: null as File | null,
     });
+    const fileInputRef = useRef<HTMLInputElement>(null)
     return (
         <div className="mt-12 flex items-center justify-between bg-white p-8 shadow ring ring-black/5">
             <form
@@ -16,6 +18,15 @@ export function NewPuppyForm() {
                     e.preventDefault();
                     post(puppies.store().url, {
                         preserveScroll: true,
+                        onSuccess: () => {
+                            reset();
+                            if (fileInputRef.current) {
+                                fileInputRef.current.value = '';
+                            }
+                            if (typeof window !== 'undefined') {
+                                window.scrollTo({top: 0, behavior: 'smooth'});
+                            }
+                        }
                     });
                 }}
                 className="mt-4 flex w-full flex-col items-start gap-4"
@@ -55,6 +66,7 @@ export function NewPuppyForm() {
                         <label htmlFor="image">Profile pic</label>
                         <input
                             // required
+                            ref={fileInputRef}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="image"
                             type="file"

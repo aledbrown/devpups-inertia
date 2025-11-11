@@ -18,7 +18,7 @@ class PuppyController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Puppy::query()->orderByDesc('updated_at');
+        $query = Puppy::query()->latest();
         if ($search) {
             $query->where('name', 'like', "%{$search}%");
             $query->orWhere('trait', 'like', "%{$search}%");
