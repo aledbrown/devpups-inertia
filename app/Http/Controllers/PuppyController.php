@@ -18,7 +18,7 @@ class PuppyController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Puppy::query();
+        $query = Puppy::query()->orderByDesc('updated_at');
         if ($search) {
             $query->where('name', 'like', "%{$search}%");
             $query->orWhere('trait', 'like', "%{$search}%");
@@ -64,7 +64,7 @@ class PuppyController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('puppies', 'public');
-            if (! $path) {
+            if (!$path) {
                 return back()->withErrors(['image' => 'Failed to upload image.']);
             }
             $imagePath = Storage::url($path);
@@ -72,12 +72,20 @@ class PuppyController extends Controller
 
         // Create a new Puppy instance attached to the authenticated user
         $puppy = $request->user()->puppies()->create([
-            'name' => $validatedData['name'],
-            'trait' => $validatedData['trait'],
-            'image_url' => $imagePath,
+            'name' => $validatedData['name'], 'trait' => $validatedData['trait'], 'image_url' => $imagePath,
         ]);
 
         // Redirect to the same page
         return back()->with('success', 'Puppy created successfully.');
+    }
+
+    /**
+     * Destroy
+     */
+    public function destroy(Request $request, Puppy $puppy)
+    {
+        dd('Delete Pup', $puppy);
+        $puppy->delete();
+        return back()->with('success', 'Puppy deleted successfully.');
     }
 }

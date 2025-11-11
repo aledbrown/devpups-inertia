@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Puppy extends Model
 {
@@ -22,5 +23,13 @@ class Puppy extends Model
     public function likedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'puppy_user');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($puppy) {
+            Storage::disk('public')->delete(Storage::url($puppy->image_url));
+        });
+
     }
 }
