@@ -4,13 +4,17 @@ import puppies from '@/routes/puppies';
 import InputError from '@/components/input-error';
 import { useRef } from 'react';
 
-export function NewPuppyForm() {
+export function NewPuppyForm({
+    mainRef,
+}: {
+    mainRef?: React.RefObject<HTMLElement>;
+}) {
     const { post, setData, data, errors, reset } = useForm({
         name: '',
         trait: '',
         image: null as File | null,
     });
-    const fileInputRef = useRef<HTMLInputElement>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null);
     return (
         <div className="mt-12 flex items-center justify-between bg-white p-8 shadow ring ring-black/5">
             <form
@@ -23,10 +27,13 @@ export function NewPuppyForm() {
                             if (fileInputRef.current) {
                                 fileInputRef.current.value = '';
                             }
-                            if (typeof window !== 'undefined') {
-                                window.scrollTo({top: 0, behavior: 'smooth'});
+                            if (mainRef?.current) {
+                                mainRef.current.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start',
+                                });
                             }
-                        }
+                        },
                     });
                 }}
                 className="mt-4 flex w-full flex-col items-start gap-4"
@@ -43,9 +50,7 @@ export function NewPuppyForm() {
                             name="name"
                             onChange={(e) => setData('name', e.target.value)}
                         />
-                        {errors.name && (
-                            <InputError message={errors.name} />
-                        )}
+                        {errors.name && <InputError message={errors.name} />}
                     </fieldset>
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="trait">Personality trait</label>
@@ -58,9 +63,7 @@ export function NewPuppyForm() {
                             name="trait"
                             onChange={(e) => setData('trait', e.target.value)}
                         />
-                        {errors.trait && (
-                            <InputError message={errors.trait} />
-                        )}
+                        {errors.trait && <InputError message={errors.trait} />}
                     </fieldset>
                     <fieldset className="col-span-2 flex w-full flex-col gap-1">
                         <label htmlFor="image">Profile pic</label>
@@ -78,9 +81,7 @@ export function NewPuppyForm() {
                                 );
                             }}
                         />
-                        {errors.image && (
-                            <InputError message={errors.image} />
-                        )}
+                        {errors.image && <InputError message={errors.image} />}
                     </fieldset>
                 </div>
                 <SubmitButton />
