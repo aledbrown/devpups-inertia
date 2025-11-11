@@ -1,9 +1,10 @@
 import { useFormStatus } from 'react-dom';
 import { useForm } from '@inertiajs/react';
 import puppies from '@/routes/puppies';
+import InputError from '@/components/input-error';
 
 export function NewPuppyForm() {
-    const { post, setData, data } = useForm({
+    const { post, setData, data, errors } = useForm({
         name: '',
         trait: '',
         image: null as File | null,
@@ -23,7 +24,7 @@ export function NewPuppyForm() {
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="name">Name</label>
                         <input
-                            required
+                            // required
                             value={data.name}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="name"
@@ -31,11 +32,14 @@ export function NewPuppyForm() {
                             name="name"
                             onChange={(e) => setData('name', e.target.value)}
                         />
+                        {errors.name && (
+                            <InputError message={errors.name} />
+                        )}
                     </fieldset>
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="trait">Personality trait</label>
                         <input
-                            required
+                            // required
                             value={data.trait}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="trait"
@@ -43,11 +47,14 @@ export function NewPuppyForm() {
                             name="trait"
                             onChange={(e) => setData('trait', e.target.value)}
                         />
+                        {errors.trait && (
+                            <InputError message={errors.trait} />
+                        )}
                     </fieldset>
                     <fieldset className="col-span-2 flex w-full flex-col gap-1">
                         <label htmlFor="image">Profile pic</label>
                         <input
-                            required
+                            // required
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="image"
                             type="file"
@@ -59,6 +66,9 @@ export function NewPuppyForm() {
                                 );
                             }}
                         />
+                        {errors.image && (
+                            <InputError message={errors.image} />
+                        )}
                     </fieldset>
                 </div>
                 <SubmitButton />

@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 class PuppyController extends Controller
 {
-
     /**
      * Index
      */
@@ -51,6 +51,33 @@ class PuppyController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+
+        // Validate the data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'trait' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+        ]);
+
+        // Store the uploaded image
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('puppies', 'public');
+            if (! $path) {
+                return back()->withErrors(['image' => 'Failed to upload image.']);
+            }
+            $imagePath = Storage::url($path);
+        }
+
+        // Create a new Puppy instance attached to the authenticated user
+        $puppy = $request->user()->puppies()->create([
+            'name' => $validatedData['name'],
+            'trait' => $validatedData['trait'],
+            'image_url' => $imagePath,
+        ]);
+
+        // Redirect to the same page
+        return back()->with('success', 'Puppy created successfully.');
     }
 }
