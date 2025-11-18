@@ -9,7 +9,7 @@ export function NewPuppyForm({
 }: {
     mainRef?: React.RefObject<HTMLElement>;
 }) {
-    const { post, setData, data, errors, reset } = useForm({
+    const { post, setData, data, errors, reset, processing } = useForm({
         name: '',
         trait: '',
         image: null as File | null,
@@ -42,12 +42,13 @@ export function NewPuppyForm({
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="name">Name</label>
                         <input
-                            // required
+                            required
                             value={data.name}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="name"
                             type="text"
                             name="name"
+                            disabled={processing}
                             onChange={(e) => setData('name', e.target.value)}
                         />
                         {errors.name && <InputError message={errors.name} />}
@@ -55,12 +56,13 @@ export function NewPuppyForm({
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="trait">Personality trait</label>
                         <input
-                            // required
+                            required
                             value={data.trait}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="trait"
                             type="text"
                             name="trait"
+                            disabled={processing}
                             onChange={(e) => setData('trait', e.target.value)}
                         />
                         {errors.trait && <InputError message={errors.trait} />}
@@ -68,12 +70,13 @@ export function NewPuppyForm({
                     <fieldset className="col-span-2 flex w-full flex-col gap-1">
                         <label htmlFor="image">Profile pic</label>
                         <input
-                            // required
+                            required
                             ref={fileInputRef}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="image"
                             type="file"
                             name="image"
+                            disabled={processing}
                             onChange={(e) => {
                                 setData(
                                     'image',
@@ -84,12 +87,21 @@ export function NewPuppyForm({
                         {errors.image && <InputError message={errors.image} />}
                     </fieldset>
                 </div>
-                <SubmitButton />
+                <button
+                    className="mt-4 inline-block rounded bg-cyan-300 px-4 py-2 font-medium text-cyan-900 hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-200"
+                    type="submit"
+                    disabled={processing}
+                >
+                    {processing
+                        ? `Adding ${data?.name || 'puppy'}...`
+                        : 'Add puppy'}
+                </button>
             </form>
         </div>
     );
 }
 
+/*
 function SubmitButton() {
     const status = useFormStatus();
     return (
@@ -104,3 +116,4 @@ function SubmitButton() {
         </button>
     );
 }
+*/

@@ -51,7 +51,7 @@ class PuppyController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        // sleep(2);
 
         // Validate the data
         $validatedData = $request->validate([
@@ -64,7 +64,7 @@ class PuppyController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('puppies', 'public');
-            if (!$path) {
+            if (! $path) {
                 return back()->withErrors(['image' => 'Failed to upload image.']);
             }
             $imagePath = Storage::url($path);
@@ -86,6 +86,7 @@ class PuppyController extends Controller
     {
         dd('Delete Pup', $puppy);
         $puppy->delete();
+
         return back()->with('success', 'Puppy deleted successfully.');
     }
 }
