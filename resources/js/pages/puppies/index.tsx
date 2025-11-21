@@ -12,16 +12,18 @@ import React, { useRef } from 'react';
 export default function App({
     puppies,
     filters,
+    likedPups,
 }: {
     puppies: PaginatedResponse<Puppy>;
     filters: Filters;
+    likedPups: Puppy[];
 }) {
     return (
         <PageWrapper>
             <Container>
                 <Header />
-                {/*<pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>*/}
-                <Main paginatedPuppies={puppies} filters={filters} />
+                {/*<pre className="text-black">{JSON.stringify(likedPups, null, 2)}</pre>*/}
+                <Main paginatedPuppies={puppies} filters={filters} likedPups={likedPups} />
             </Container>
         </PageWrapper>
     );
@@ -30,9 +32,11 @@ export default function App({
 function Main({
     paginatedPuppies,
     filters,
+    likedPups,
 }: {
     paginatedPuppies: PaginatedResponse<Puppy>;
     filters: Filters;
+    likedPups: Puppy[];
 }) {
     const { auth } = usePage<SharedData>().props;
     const mainRef = useRef<HTMLElement>(null);
@@ -40,7 +44,7 @@ function Main({
         <main ref={mainRef} className="scroll-mt-6">
             <div className="mt-10 grid gap-8 sm:grid-cols-2">
                 <Search filters={filters} />
-                {auth.user && <Shortlist puppies={paginatedPuppies.data} />}
+                {auth.user && <Shortlist puppies={likedPups} />}
             </div>
             <PuppiesList puppies={paginatedPuppies} />
             {auth.user && <NewPuppyForm mainRef={mainRef} />}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LikedPuppiedResource;
 use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
 use Illuminate\Http\Request;
@@ -29,11 +30,13 @@ class PuppyController extends Controller
 
         $puppies = $query->paginate(15)->withQueryString();
 
+        $likedPups = $request->user()?->likedPuppies()->orderBy('name')->get() ?? [];
+
         return Inertia::render('puppies/index', [
             'canRegister' => Features::enabled(Features::registration()),
-            'puppies' => PuppyResource::collection($puppies), 'filters' => [
-                'search' => $search,
-            ],
+            'puppies' => PuppyResource::collection($puppies),
+            'filters' => ['search' => $search],
+            'likedPups' => LikedPuppiedResource::collection($likedPups),
         ]);
     }
 

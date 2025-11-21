@@ -7,7 +7,7 @@ import { Heart, LoaderCircle, X } from 'lucide-react';
 // TODO: Make sure all the liked puppies are showing not just the ones from the current page.
 
 export function Shortlist({ puppies }: { puppies: Puppy[] }) {
-    const { auth } = usePage<SharedData>().props;
+    // const { auth } = usePage<SharedData>().props;
 
     return (
         <div>
@@ -17,7 +17,7 @@ export function Shortlist({ puppies }: { puppies: Puppy[] }) {
             </h2>
             <ul className="mt-4 flex flex-wrap gap-4">
                 {puppies
-                    .filter((pup) => pup.likedBy.includes(auth.user?.id))
+                    // .filter((pup) => pup.likedBy.includes(auth.user?.id))
                     .map((puppy) => (
                         <li
                             key={puppy.id}
