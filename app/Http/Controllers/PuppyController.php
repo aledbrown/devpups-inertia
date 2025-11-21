@@ -6,7 +6,9 @@ use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Intervention\Image\Laravel\Facades\Image;
 use Laravel\Fortify\Features;
 
 class PuppyController extends Controller
@@ -63,8 +65,21 @@ class PuppyController extends Controller
         // Store the uploaded image
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('puppies', 'public');
-            if (! $path) {
+
+            // Image optimisation
+            $image = Image::read($request->file('image'));
+            // Scale down only when 1000 pix wide
+            if ($image->width() > 1000) {
+                $image->scale(width: 1000);
+            }
+            // Convert to WEBP format
+            $webpEncoded = $image->toWebp(quality: 95)->toString();
+            // Random filename
+            $filename = Str::random().'.webp';
+            $path = 'puppies/'.$filename;
+            $stored = Storage::disk('public')->put($path, $webpEncoded);
+
+            if (! $stored) {
                 return back()->withErrors(['image' => 'Failed to upload image.']);
             }
             $imagePath = Storage::url($path);
