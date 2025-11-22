@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\OptimizeWebpImageAction;
 use App\Http\Resources\LikedPuppiedResource;
 use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
@@ -69,14 +70,17 @@ class PuppyController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
 
-            // Image optimisation
-            $image = Image::read($request->file('image'));
-            // Scale down only when 1000 pix wide
-            if ($image->width() > 1000) {
-                $image->scale(width: 1000);
-            }
-            // Convert to WEBP format
-            $webpEncoded = $image->toWebp(quality: 95)->toString();
+            // // Image optimisation
+            // $image = Image::read($request->file('image'));
+            // // Scale down only when 1000 pix wide
+            // if ($image->width() > 1000) {
+            //     $image->scale(width: 1000);
+            // }
+            // // Convert to WEBP format
+            // $webpEncoded = $image->toWebp(quality: 95)->toString();
+
+            $webpEncoded = (new OptimizeWebpImageAction)->handle($request->file('image'));
+
             // Random filename
             $filename = Str::random().'.webp';
             $path = 'puppies/'.$filename;
