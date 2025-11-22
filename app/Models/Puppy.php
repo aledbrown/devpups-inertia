@@ -25,10 +25,11 @@ class Puppy extends Model
         return $this->belongsToMany(User::class, 'puppy_user');
     }
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::deleting(function ($puppy) {
-            Storage::disk('public')->delete(Storage::url($puppy->image_url));
+            $path = str_replace('/storage/', '', $puppy->image_url);
+            Storage::disk('public')->delete($path);
         });
 
     }

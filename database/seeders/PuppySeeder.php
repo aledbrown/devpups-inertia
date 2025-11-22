@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\OptimizeWebpImageAction;
 use App\Models\Puppy;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -89,47 +90,38 @@ class PuppySeeder extends Seeder
             ['name' => 'Cosmo', 'trait' => 'Space cadet', 'image' => '5.jpg'],
             ['name' => 'Diesel', 'trait' => 'Power house', 'image' => '6.jpg'],
             ['name' => 'Enzo', 'trait' => 'Race car driver', 'image' => '7.jpg'],
-            ['name' => 'Freya', 'trait' => 'Norse goddess', 'image' => '8.jpg'],
-            ['name' => 'Goji', 'trait' => 'Berry picker', 'image' => '9.jpg'],
-            ['name' => 'Harlow', 'trait' => 'Hollywood star', 'image' => '10.jpg'],
-            ['name' => 'Ivy', 'trait' => 'Wall climber', 'image' => '11.jpg'],
-            ['name' => 'Juno', 'trait' => 'Queen of heaven', 'image' => '12.jpg'],
-            ['name' => 'Kiwi', 'trait' => 'Fuzzy fruit', 'image' => '13.jpg'],
-            ['name' => 'Loki', 'trait' => 'Mischief maker', 'image' => '14.jpg'],
-            ['name' => 'Maple', 'trait' => 'Syrup lover', 'image' => '15.jpg'],
-            ['name' => 'Niko', 'trait' => 'Victory bringer', 'image' => '16.jpg'],
-            ['name' => 'Olive', 'trait' => 'Peace keeper', 'image' => '17.jpg'],
-            ['name' => 'Poppy', 'trait' => 'Flower child', 'image' => '18.jpg'],
-            ['name' => 'Quincy', 'trait' => 'Fifth element', 'image' => '19.jpg'],
-            ['name' => 'River', 'trait' => 'Flow master', 'image' => '20.jpg'],
-            ['name' => 'Sasha', 'trait' => 'Defender of all', 'image' => '21.jpg'],
-            ['name' => 'Theo', 'trait' => 'Gift from above', 'image' => '22.jpg'],
-            ['name' => 'Uma', 'trait' => 'Tranquility seeker', 'image' => '1.jpg'],
-            ['name' => 'Violet', 'trait' => 'Purple reign', 'image' => '2.jpg'],
-            ['name' => 'Willow', 'trait' => 'Tree hugger', 'image' => '3.jpg'],
-            ['name' => 'Xena', 'trait' => 'Warrior princess', 'image' => '4.jpg'],
-            ['name' => 'Yuki', 'trait' => 'Snow dancer', 'image' => '5.jpg'],
-            ['name' => 'Zara', 'trait' => 'Princess of hearts', 'image' => '6.jpg'],
-            ['name' => 'Archie', 'trait' => 'Bold and brave', 'image' => '7.jpg'],
-            ['name' => 'Bear', 'trait' => 'Big hugger', 'image' => '8.jpg'],
-            ['name' => 'Copper', 'trait' => 'Shiny penny', 'image' => '9.jpg'],
-            ['name' => 'Dash', 'trait' => 'Speed demon', 'image' => '10.jpg'],
-            ['name' => 'Ember', 'trait' => 'Fire starter', 'image' => '11.jpg'],
-            ['name' => 'Fable', 'trait' => 'Story teller', 'image' => '12.jpg'],
-            ['name' => 'Goober', 'trait' => 'Silly billy', 'image' => '13.jpg'],
-            ['name' => 'Honey', 'trait' => 'Sweetness overload', 'image' => '14.jpg'],
-            ['name' => 'Iggy', 'trait' => 'Rock star', 'image' => '15.jpg'],
         ];
 
+        // loop all Puppy objects and delete from the database one by one
+        $getPuppies = Puppy::all();
+        foreach ($getPuppies as $puppy) {
+            $puppy->delete(); // this will delete associated image files
+        }
+        Puppy::truncate();
+
+        // seed the new data
         $user = User::first();
 
+        $optimizer = new OptimizeWebpImageAction;
+
         foreach ($puppies as $puppy) {
-            Puppy::create([
-                'user_id' => $user->id,
-                'name' => $puppy['name'],
-                'trait' => $puppy['trait'],
-                'image_url' => Storage::url('puppies/'.$puppy['image']),
-            ]);
+            // Optimise Images from Seeder
+            // $input = storage_path('app/public/puppies/').$puppy['image'];
+            $input = 'public/images/samples/'.$puppy['image'];
+            $optimised = $optimizer->handle($input);
+
+            // Save the optimized image to disk
+            $path = 'puppies/'.$optimised['fileName'];
+            $storage = Storage::disk('public')->put($path, $optimised['webpString']);
+
+            if ($storage) {
+                Puppy::create([
+                    'user_id' => $user->id,
+                    'name' => $puppy['name'],
+                    'trait' => $puppy['trait'],
+                    'image_url' => Storage::url($path),
+                ]);
+            }
         }
 
     }
