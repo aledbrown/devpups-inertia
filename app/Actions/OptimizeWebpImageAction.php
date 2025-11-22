@@ -2,21 +2,15 @@
 
 namespace App\Actions;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 
 class OptimizeWebpImageAction
 {
-    /**
-     * @param  UploadedFile  $file
-     *
-     * @return array
-     */
-    public function handle(UploadedFile $file): array
+    public function handle(string $input): array
     {
         // Image optimisation
-        $image = Image::read($file);
+        $image = Image::read($input);
 
         // Scale down only when 1000 pix wide
         if ($image->width() > 1000) {
