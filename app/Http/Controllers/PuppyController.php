@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\OptimizeWebpImageAction;
-use App\Http\Resources\LikedPuppiedResource;
 use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
 use Illuminate\Http\Request;
@@ -35,7 +34,7 @@ class PuppyController extends Controller
             'canRegister' => Features::enabled(Features::registration()),
             'puppies' => PuppyResource::collection($puppies),
             'filters' => ['search' => $search],
-            'likedPups' => LikedPuppiedResource::collection($likedPups),
+            'likedPups' => PuppyResource::collection($likedPups),
         ]);
     }
 
