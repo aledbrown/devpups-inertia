@@ -83,7 +83,7 @@ class PuppyController extends Controller
         ]);
 
         // Redirect to the same page
-        return back()->with('success', 'Puppy created successfully.');
+        return redirect()->route('home', ['page' => '1'])->with('success', 'Puppy created successfully.');
     }
 
     /**
