@@ -1,6 +1,7 @@
 import { LikeToggle } from '@/components/LikeToggle';
 import { Pagination } from '@/components/pagination';
 import type { PaginatedResponse, Puppy } from '@/types';
+import { PuppyDelete } from '@/components/puppy-delete';
 
 export function PuppiesList({
     puppies,
@@ -27,8 +28,11 @@ function PuppyCard({ puppy }: PuppyCardProps) {
     return (
         <li
             key={puppy.id}
-            className="overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5"
+            className="relative overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5"
         >
+            <div className="absolute p-4 top-0 right-0">
+                <PuppyDelete puppy={puppy} />
+            </div>
             <img
                 className="aspect-square object-cover"
                 alt={puppy.name}
