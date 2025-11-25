@@ -42,7 +42,7 @@ export function NewPuppyForm({
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="name">Name</label>
                         <input
-                            required
+                            // required
                             value={data.name}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="name"
@@ -56,7 +56,7 @@ export function NewPuppyForm({
                     <fieldset className="flex w-full flex-col gap-1">
                         <label htmlFor="trait">Personality trait</label>
                         <input
-                            required
+                            // required
                             value={data.trait}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="trait"
@@ -70,7 +70,7 @@ export function NewPuppyForm({
                     <fieldset className="col-span-2 flex w-full flex-col gap-1">
                         <label htmlFor="image">Profile pic</label>
                         <input
-                            required
+                            // required
                             ref={fileInputRef}
                             className="max-w-96 rounded-sm bg-white px-2 py-1 ring ring-black/20 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
                             id="image"

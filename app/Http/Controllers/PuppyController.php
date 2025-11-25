@@ -44,9 +44,14 @@ class PuppyController extends Controller
     public function like(Request $request, Puppy $puppy)
     {
         usleep(200000);
-        $puppy->likedBy()->toggle($request->user()->id);
+        $likeResult = $puppy->likedBy()->toggle($request->user()->id);
 
-        return back();
+        if ($likeResult['attached']) {
+            return back()->with('success', 'Puppy '.$puppy->name.' liked successfully.');
+        } else {
+            return back()->with('error', 'Puppy '.$puppy->name.' unliked successfully.');
+        }
+        // return back();
     }
 
     /**

@@ -1,7 +1,7 @@
 import { Container } from '@/components/Container';
 import { Header } from '@/components/Header';
 import { NewPuppyForm } from '@/components/NewPuppyForm';
-import { PageWrapper } from '@/components/PageWrapper';
+import PageWrapper from '@/components/PageWrapper';
 import { PuppiesList } from '@/components/PuppiesList';
 import { Search } from '@/components/Search';
 import { Shortlist } from '@/components/Shortlist';
@@ -39,7 +39,7 @@ function Main({
     likedPups: Puppy[];
 }) {
     const { auth } = usePage<SharedData>().props;
-    const mainRef = useRef<HTMLElement>(null);
+    const mainRef = useRef<HTMLElement | null>(null);
     return (
         <main ref={mainRef} className="scroll-mt-6">
             <div className="mt-10 grid gap-8 sm:grid-cols-2">
