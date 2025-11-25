@@ -1,4 +1,3 @@
-import { useFormStatus } from 'react-dom';
 import { useForm } from '@inertiajs/react';
 import puppies from '@/routes/puppies';
 import InputError from '@/components/input-error';
@@ -7,7 +6,7 @@ import { useRef } from 'react';
 export function NewPuppyForm({
     mainRef,
 }: {
-    mainRef?: React.RefObject<HTMLElement>;
+    mainRef?: React.RefObject<HTMLElement | null>;
 }) {
     const { post, setData, data, errors, reset, processing } = useForm({
         name: '',
