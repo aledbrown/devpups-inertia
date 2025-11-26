@@ -87,7 +87,7 @@ class PuppyController extends Controller
             'name' => $validatedData['name'], 'trait' => $validatedData['trait'], 'image_url' => $imagePath,
         ]);
 
-        // Redirect to the same page
+        // Redirect to page 1
         return redirect()->route('home', ['page' => '1'])->with('success', 'Puppy created successfully.');
     }
 
@@ -97,8 +97,11 @@ class PuppyController extends Controller
     public function destroy(Request $request, Puppy $puppy)
     {
         dd('Delete Pup', $puppy);
+        if ($puppy->user_id !== $request->user()->id) {
+            return redirect()->back()->with('warning', 'You are not authorized to delete this puppy.');
+        }
         $puppy->delete();
 
-        return back()->with('success', 'Puppy deleted successfully.');
+        return redirect()->route('home', ['page' => '1'])->with('success', 'Puppy deleted successfully.');
     }
 }
