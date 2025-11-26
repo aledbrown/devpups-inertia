@@ -23,6 +23,7 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
         e.preventDefault();
         setProcessing(true);
         router.delete(destroy(puppy.id), {
+            preserveScroll: true,
             onFinish: () => setProcessing(false),
         });
     }

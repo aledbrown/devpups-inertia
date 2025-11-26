@@ -49,7 +49,7 @@ class PuppyController extends Controller
         if ($likeResult['attached']) {
             return back()->with('success', 'Puppy '.$puppy->name.' liked successfully.');
         } else {
-            return back()->with('error', 'Puppy '.$puppy->name.' unliked successfully.');
+            return back()->with('warning', 'Puppy '.$puppy->name.' unliked successfully.');
         }
         // return back();
     }
@@ -96,13 +96,14 @@ class PuppyController extends Controller
      */
     public function destroy(Request $request, Puppy $puppy)
     {
-        // dd('Delete Pup', $puppy);
-        sleep(2);
+        // sleep(2);
         if ($puppy->user_id !== $request->user()->id) {
             return redirect()->back()->with('warning', 'You are not authorized to delete this puppy.');
         }
+
+        $puppyName = $puppy->name;
         $puppy->delete();
 
-        return redirect()->route('home', ['page' => '1'])->with('success', 'Puppy deleted successfully.');
+        return redirect()->route('home', ['page' => '1'])->with('success', 'Puppy '.$puppyName.' deleted successfully.');
     }
 }
