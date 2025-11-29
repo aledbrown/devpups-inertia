@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button';
-import { Puppy } from '@/types';
-import { TrashIcon } from 'lucide-react';
+import { destroy } from '@/actions/App/Http/Controllers/PuppyController';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -12,8 +10,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { router } from '@inertiajs/react';
-import { destroy } from '@/actions/App/Http/Controllers/PuppyController';
+import { Button } from '@/components/ui/button';
+import { Puppy, SharedData } from '@/types';
+import { router, usePage } from '@inertiajs/react';
+import { TrashIcon } from 'lucide-react';
 import React from 'react';
 
 export function PuppyDelete({ puppy }: { puppy: Puppy }) {
@@ -31,15 +31,18 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
     return (
         <div>
             <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button
-                        size={'icon'}
-                        variant={'destructive'}
-                        aria-label={'Delete puppy ' + puppy.name + '?'}
-                    >
-                        <TrashIcon />
-                    </Button>
-                </AlertDialogTrigger>
+                {puppy.can.delete && (
+                    <AlertDialogTrigger asChild>
+                        <Button
+                            className={'group/delete bg-background/30 hover:bg-background transition cursor-pointer'}
+                            size={'icon'}
+                            variant={'secondary'}
+                            aria-label={'Delete puppy ' + puppy.name + '?'}
+                        >
+                            <TrashIcon className={'size-4 group-hover/delete:stroke-destructive-foreground'} />
+                        </Button>
+                    </AlertDialogTrigger>
+                )}
                 <AlertDialogContent>
                     <form onSubmit={submit}>
                         <AlertDialogHeader>
@@ -58,7 +61,10 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
                             <AlertDialogCancel disabled={processing}>
                                 Cancel
                             </AlertDialogCancel>
-                            <AlertDialogAction type="submit" disabled={processing}>
+                            <AlertDialogAction
+                                type="submit"
+                                disabled={processing}
+                            >
                                 Delete {puppy.name}
                             </AlertDialogAction>
                         </AlertDialogFooter>

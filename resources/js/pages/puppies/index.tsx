@@ -25,7 +25,7 @@ export default function PuppiesIndexPage({
         <PageWrapper>
             <Container>
                 <Header />
-                {/*<pre className="text-black">{JSON.stringify(likedPups, null, 2)}</pre>*/}
+                {/*<pre className="text-black">{JSON.stringify(puppies, null, 2)}</pre>*/}
                 <main ref={mainRef} className="scroll-mt-6">
                     <div className="mt-10 grid gap-8 sm:grid-cols-2">
                         <Search filters={filters} />

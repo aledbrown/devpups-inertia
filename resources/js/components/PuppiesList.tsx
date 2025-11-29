@@ -2,6 +2,7 @@ import { LikeToggle } from '@/components/LikeToggle';
 import { Pagination } from '@/components/pagination';
 import type { PaginatedResponse, Puppy } from '@/types';
 import { PuppyDelete } from '@/components/puppy-delete';
+import React from 'react';
 
 export function PuppiesList({
     puppies,
@@ -30,9 +31,11 @@ function PuppyCard({ puppy }: PuppyCardProps) {
             key={puppy.id}
             className="relative overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5"
         >
-            <div className="absolute p-4 top-0 right-0">
-                <PuppyDelete puppy={puppy} />
-            </div>
+            {puppy.can.delete && (
+                <div className="absolute p-4 top-0 right-0">
+                    <PuppyDelete puppy={puppy} />
+                </div>
+            )}
             <img
                 className="aspect-square object-cover"
                 alt={puppy.name}
@@ -41,6 +44,7 @@ function PuppyCard({ puppy }: PuppyCardProps) {
             <div className="gap flex items-center justify-between p-4 text-sm">
                 <div className="flex items-center gap-2">
                     <p className="font-semibold">{puppy.name}</p>
+                    {/*<pre className="text-black">{JSON.stringify(puppy.can.delete, null, 2)}</pre>*/}
                     <span className="text-slate-300">·</span>
                     <p className="text-slate-500">{puppy.trait}</p>
                 </div>
