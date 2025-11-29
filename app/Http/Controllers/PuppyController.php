@@ -96,7 +96,7 @@ class PuppyController extends Controller
      */
     public function destroy(Request $request, Puppy $puppy)
     {
-        sleep(2);
+        // sleep(2);
         if ($request->user()->cannot('delete', $puppy)) {
             return redirect()->back()->with('warning', 'You are not authorized to delete this puppy.');
             // return redirect()->to(route('home'), 303)->with('warning', 'You are not authorized to delete that puppy.');

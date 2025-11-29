@@ -13,10 +13,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Puppy, SharedData } from '@/types';
 import { router, usePage } from '@inertiajs/react';
-import { TrashIcon } from 'lucide-react';
+import { LoaderCircle, TrashIcon } from 'lucide-react';
 import React from 'react';
+import { clsx } from 'clsx';
 
 export function PuppyDelete({ puppy }: { puppy: Puppy }) {
+    const [open, setOpen] = React.useState(false);
     const [processing, setProcessing] = React.useState(false);
 
     function submit(e: React.FormEvent) {
@@ -30,7 +32,7 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
 
     return (
         <div>
-            <AlertDialog>
+            <AlertDialog open={open} onOpenChange={setOpen}>
                 {puppy.can.delete && (
                     <AlertDialogTrigger asChild>
                         <Button
@@ -61,12 +63,18 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
                             <AlertDialogCancel disabled={processing}>
                                 Cancel
                             </AlertDialogCancel>
-                            <AlertDialogAction
+                            <Button
+                                className={'relative disabled:opacity-100'}
                                 type="submit"
                                 disabled={processing}
                             >
-                                Delete {puppy.name}
-                            </AlertDialogAction>
+                                {processing && (
+                                    <div className={'absolute inset-0 grid place-items-center'}>
+                                        <LoaderCircle className={'size-5 stroke-primary-foreground animate-spin'} />
+                                    </div>
+                                )}
+                                <span className={clsx(processing && 'invisible')}>Delete {puppy.name}</span>
+                            </Button>
                         </AlertDialogFooter>
                     </form>
                 </AlertDialogContent>
