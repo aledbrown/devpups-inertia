@@ -53,9 +53,9 @@ export interface Puppy {
     name: string;
     trait: string;
     imageUrl: string;
-    user: Pick<User, 'id' | 'name'>
+    user: Pick<User, 'id' | 'name'>;
     likedBy: User['id'][];
-    can: { delete: boolean; }
+    can: { delete: boolean; update: boolean };
 }
 
 export interface Filters {

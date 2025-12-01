@@ -36,7 +36,7 @@ class PuppyPolicy
      */
     public function update(User $user, Puppy $puppy): bool
     {
-        return false;
+        return $this->isOwner($user, $puppy);
     }
 
     /**
@@ -44,7 +44,7 @@ class PuppyPolicy
      */
     public function delete(User $user, Puppy $puppy): bool
     {
-        return $user->id === $puppy->user_id;
+        return $this->isOwner($user, $puppy);
     }
 
     /**
@@ -62,4 +62,16 @@ class PuppyPolicy
     {
         return false;
     }
+
+    /**
+     * @param  User  $user
+     * @param  Puppy  $puppy
+     *
+     * @return bool
+     */
+    protected function isOwner(User $user, Puppy $puppy): bool
+    {
+        return $user->id === $puppy->user_id;
+    }
+
 }

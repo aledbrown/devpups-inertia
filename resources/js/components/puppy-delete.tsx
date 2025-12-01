@@ -1,7 +1,6 @@
 import { destroy } from '@/actions/App/Http/Controllers/PuppyController';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -11,8 +10,8 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Puppy, SharedData } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Puppy } from '@/types';
+import { router } from '@inertiajs/react';
 import { LoaderCircle, TrashIcon } from 'lucide-react';
 import React from 'react';
 import { clsx } from 'clsx';
@@ -36,12 +35,18 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
                 {puppy.can.delete && (
                     <AlertDialogTrigger asChild>
                         <Button
-                            className={'group/delete bg-background/30 hover:bg-background transition cursor-pointer'}
+                            className={
+                                'group/delete cursor-pointer bg-background/30 transition hover:bg-background'
+                            }
                             size={'icon'}
                             variant={'secondary'}
                             aria-label={'Delete puppy ' + puppy.name + '?'}
                         >
-                            <TrashIcon className={'size-4 group-hover/delete:stroke-destructive-foreground'} />
+                            <TrashIcon
+                                className={
+                                    'size-4 group-hover/delete:stroke-destructive-foreground'
+                                }
+                            />
                         </Button>
                     </AlertDialogTrigger>
                 )}
@@ -69,11 +74,23 @@ export function PuppyDelete({ puppy }: { puppy: Puppy }) {
                                 disabled={processing}
                             >
                                 {processing && (
-                                    <div className={'absolute inset-0 grid place-items-center'}>
-                                        <LoaderCircle className={'size-5 stroke-primary-foreground animate-spin'} />
+                                    <div
+                                        className={
+                                            'absolute inset-0 grid place-items-center'
+                                        }
+                                    >
+                                        <LoaderCircle
+                                            className={
+                                                'size-5 animate-spin stroke-primary-foreground'
+                                            }
+                                        />
                                     </div>
                                 )}
-                                <span className={clsx(processing && 'invisible')}>Delete {puppy.name}</span>
+                                <span
+                                    className={clsx(processing && 'invisible')}
+                                >
+                                    Delete {puppy.name}
+                                </span>
                             </Button>
                         </AlertDialogFooter>
                     </form>

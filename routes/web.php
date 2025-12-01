@@ -14,6 +14,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Store New Puppy
     Route::post('puppies', [PuppyController::class, 'store'])->name('puppies.store');
 
+    // Update Puppy
+    Route::put('puppies/{puppy}', [PuppyController::class, 'update'])->name('puppies.update');
+
     // Delete Puppy
     Route::delete('puppies/{puppy}', [PuppyController::class, 'destroy'])->name('puppies.destroy');
 

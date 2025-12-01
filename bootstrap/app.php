@@ -28,9 +28,11 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->respond(function ($response, AuthenticationException $exception, $request) {
-            if (! $request->expectsJson()) {
-                return redirect()->to(route('home'), 303)->with('warning', 'You must be logged in to perform this action.');
+        $exceptions->respond(function ($response, $exception, $request) {
+            if ($exception instanceof AuthenticationException && ! $request->expectsJson()) {
+                return redirect()
+                    ->to(route('home'), 303)
+                    ->with('warning', 'You must be logged in to perform this action.');
             }
 
             return $response;
