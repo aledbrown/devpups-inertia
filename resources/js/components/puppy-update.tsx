@@ -8,23 +8,32 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Puppy } from '@/types';
-import { Form, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import clsx from 'clsx';
 import { EditIcon, LoaderCircle } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { update } from '@/actions/App/Http/Controllers/PuppyController';
 
 export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
-    const { data, setData, errors, processing } = useForm({
+    const { data, setData, errors, put, processing } = useForm({
         name: puppy.name,
         trait: puppy.trait,
         image: null as File | null,
+        _method: 'put',
     });
 
     const [open, setOpen] = useState(false);
+
+    function submit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        put(update(puppy.id).url, {
+            onSuccess: () => setOpen(false),
+            preserveScroll: true,
+        });
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -43,21 +52,11 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                 <DialogDescription>
                     Make changes to your puppy’s information below.
                 </DialogDescription>
-                <Form
-                    className="space-y-6"
-                    action={update(puppy.id)}
-                    // onSubmit={(e) => {
-                    //     e.preventDefault();
-                    //
-                    // //     router.put(update(puppy.id), {
-                    // //         data: data.name + ',' + data.trait + ',' + data.image,
-                    // //         preserveScroll: true,
-                    // //     })
-                    // }}
-                >
+                <form className="space-y-6" onSubmit={submit}>
                     <Label htmlFor="name">Name</Label>
                     <Input
                         id="name"
+                        name="name"
                         className="mt-1 block w-full"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
@@ -66,7 +65,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                         placeholder="Full name"
                     />
                     {errors.name && (
-                        <p className="mt-1 text-xs text-red-500">
+                        <p className="text-xs text-red-500">
                             {errors.name}
                         </p>
                     )}
@@ -74,6 +73,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     <Label htmlFor="trait">Personality trait</Label>
                     <Input
                         id="trait"
+                        name="trait"
                         className="mt-1 block w-full"
                         value={data.trait}
                         onChange={(e) => setData('trait', e.target.value)}
@@ -82,7 +82,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     />
 
                     {errors.trait && (
-                        <p className="mt-1 text-xs text-red-500">
+                        <p className="text-xs text-red-500">
                             {errors.trait}
                         </p>
                     )}
@@ -90,6 +90,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     <Label htmlFor="image">Change image</Label>
                     <Input
                         id="image"
+                        name="image"
                         type="file"
                         className="mt-1 block w-full"
                         onChange={(e) =>
@@ -102,7 +103,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     />
 
                     {errors.image && (
-                        <p className="mt-1 text-xs text-red-500">
+                        <p className="text-xs text-red-500">
                             {errors.image}
                         </p>
                     )}
@@ -127,7 +128,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                             </span>
                         </Button>
                     </DialogFooter>
-                </Form>
+                </form>
             </DialogContent>
         </Dialog>
     );

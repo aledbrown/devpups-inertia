@@ -96,9 +96,10 @@ class PuppyController extends Controller
      */
     public function update(Request $request, Puppy $puppy)
     {
-        dd($request->all(), $request->input('data'));
+        // dd($request);
+        // dd($request->all(), $request->input('data'));
 
-        sleep(2);
+        // sleep(2);
         // Validate the data
         $request->validate([
             'name' => 'required|string|max:255',
