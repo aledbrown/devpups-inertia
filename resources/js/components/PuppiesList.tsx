@@ -17,7 +17,11 @@ export function PuppiesList({
                     <PuppyCard key={puppy.id} puppy={puppy} />
                 ))}
             </ul>
-            <Pagination className={"mt-6"} meta={puppies.meta} links={puppies.links} />
+            <Pagination
+                className={'mt-6'}
+                meta={puppies.meta}
+                links={puppies.links}
+            />
         </>
     );
 }
@@ -32,25 +36,12 @@ function PuppyCard({ puppy }: PuppyCardProps) {
             key={puppy.id}
             className="relative overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5"
         >
-            <div className="absolute p-4 top-0 right-0 flex gap-2">
-                {puppy.can.update && (
+            {puppy.can.update && (
+                <div className="absolute top-2 right-2 flex gap-2">
                     <PuppyUpdate puppy={puppy} />
-                )}
-                {puppy.can.delete && (
                     <PuppyDelete puppy={puppy} />
-                )}
-            </div>
-
-            {/*{puppy.can.update && (*/}
-            {/*    <div className="absolute p-4 top-0 right-0">*/}
-            {/*        <PuppyUpdate puppy={puppy} />*/}
-            {/*    </div>*/}
-            {/*)}*/}
-            {/*{puppy.can.delete && (*/}
-            {/*    <div className="absolute p-4 top-0 right-0">*/}
-            {/*        <PuppyDelete puppy={puppy} />*/}
-            {/*    </div>*/}
-            {/*)}*/}
+                </div>
+            )}
             <img
                 className="aspect-square object-cover"
                 alt={puppy.name}
