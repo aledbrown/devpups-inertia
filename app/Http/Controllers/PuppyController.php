@@ -134,7 +134,7 @@ class PuppyController extends Controller
         $puppy->trait = $request->trait;
         $puppy->save();
 
-        // Redirect back with success message
+        // Redirect back with a success message
         return back()->with('success', 'Puppy updated successfully!');
     }
 

@@ -10,7 +10,7 @@ class DeleteUnusedPuppyImages extends Command
 {
     /**
      * The name and signature of the console command.
-     *
+     * Usage: php artisan delete-unused-puppy-images
      * @var string
      */
     protected $signature = 'delete-unused-puppy-images';

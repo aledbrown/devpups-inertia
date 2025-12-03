@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { update } from '@/actions/App/Http/Controllers/PuppyController';
 
 export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
-    const { data, setData, errors, put, processing } = useForm({
+    const { data, setData, errors, post, processing } = useForm({
         name: puppy.name,
         trait: puppy.trait,
         image: null as File | null,
@@ -29,7 +29,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
 
     function submit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        put(update(puppy.id).url, {
+        post(update(puppy.id).url, {
             onSuccess: () => setOpen(false),
             preserveScroll: true,
         });
