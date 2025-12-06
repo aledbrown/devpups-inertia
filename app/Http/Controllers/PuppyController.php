@@ -112,7 +112,7 @@ class PuppyController extends Controller
 
             $oldImagePath = str_replace('/storage/', '', $puppy->image_url);
 
-            // Optimize and store the new image
+            // Optimise and store the new image
             $optimized = (new OptimizeWebpImageAction)->handle($request->file('image'));
             $path = 'puppies/'.$optimized['fileName'];
 

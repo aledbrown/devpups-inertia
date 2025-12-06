@@ -29,7 +29,9 @@ class Puppy extends Model
     {
         static::deleting(function ($puppy) {
             $path = str_replace('/storage/', '', $puppy->image_url);
-            Storage::disk('public')->delete($path);
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
         });
 
     }
