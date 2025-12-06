@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Puppy extends Model
 {
-
     protected $fillable = [
         'name', 'trait', 'image_url',
     ];
@@ -29,10 +28,15 @@ class Puppy extends Model
     {
         static::deleting(function ($puppy) {
             $path = str_replace('/storage/', '', $puppy->image_url);
-            if ($path && Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
+            static::deletePuppyImageIfExists($path);
         });
 
+    }
+
+    public static function deletePuppyImageIfExists(array|string $path): void
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

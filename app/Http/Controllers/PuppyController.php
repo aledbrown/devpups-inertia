@@ -124,9 +124,7 @@ class PuppyController extends Controller
             $puppy->image_url = Storage::url($path);
 
             // Delete the old image
-            if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
-                Storage::disk('public')->delete($oldImagePath);
-            }
+            $puppy->deletePuppyImageIfExists($oldImagePath);
         }
 
         // Update the puppy values
