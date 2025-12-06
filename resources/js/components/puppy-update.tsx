@@ -65,9 +65,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                         placeholder="Full name"
                     />
                     {errors.name && (
-                        <p className="text-xs text-red-500">
-                            {errors.name}
-                        </p>
+                        <p className="text-xs text-red-500">{errors.name}</p>
                     )}
 
                     <Label htmlFor="trait">Personality trait</Label>
@@ -82,9 +80,7 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     />
 
                     {errors.trait && (
-                        <p className="text-xs text-red-500">
-                            {errors.trait}
-                        </p>
+                        <p className="text-xs text-red-500">{errors.trait}</p>
                     )}
 
                     <Label htmlFor="image">Change image</Label>
@@ -103,10 +99,14 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                     />
 
                     {errors.image && (
-                        <p className="text-xs text-red-500">
-                            {errors.image}
-                        </p>
+                        <p className="text-xs text-red-500">{errors.image}</p>
                     )}
+
+                    <img
+                        src={data.image ? URL.createObjectURL(data.image) : puppy.imageUrl}
+                        className="mt-2 h-32 w-32 rounded-lg object-cover"
+                        alt={puppy.name}
+                    />
 
                     <DialogFooter className="gap-2">
                         <DialogClose asChild>
