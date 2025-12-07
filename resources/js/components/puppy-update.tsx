@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { update } from '@/actions/App/Http/Controllers/PuppyController';
 import { ImageUploadPreview } from '@/components/ImageUploadPreview';
+import { ImageUploadView } from '@/components/ImageUploadView';
 
 export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
     const { data, setData, errors, post, processing } = useForm({
@@ -103,15 +104,21 @@ export function PuppyUpdate({ puppy }: { puppy: Puppy }) {
                         <p className="text-xs text-red-500">{errors.image}</p>
                     )}
 
+                    <ImageUploadView source={data.image ?? puppy.imageUrl} />
+
+                    {/*
                     <ImageUploadPreview
                         className="mt-2 h-32 w-32 rounded-lg object-cover"
                         image={data.image}
                         alt={data.name + ' image preview'}
                     />
+                    */}
 
                     <DialogFooter className="gap-2">
                         <DialogClose asChild>
-                            <Button variant="secondary">Cancel</Button>
+                            <Button variant="secondary" onClick={() => {setData('image', null)}}>
+                                Cancel
+                            </Button>
                         </DialogClose>
 
                         <Button
