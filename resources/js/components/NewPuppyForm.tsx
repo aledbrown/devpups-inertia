@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import puppies from '@/routes/puppies';
 import InputError from '@/components/input-error';
 import { useRef } from 'react';
+import { ImageUploadPreview } from '@/components/ImageUploadPreview';
 
 export function NewPuppyForm({
     mainRef,
@@ -84,7 +85,9 @@ export function NewPuppyForm({
                             }}
                         />
                         {errors.image && <InputError message={errors.image} />}
+                    <ImageUploadPreview className="mt-6 self-start" source={data.image} />
                     </fieldset>
+
                 </div>
                 <button
                     className="mt-4 inline-block rounded bg-cyan-300 px-4 py-2 font-medium text-cyan-900 hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-200"
