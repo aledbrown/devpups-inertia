@@ -1,36 +1,24 @@
-import React, { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
-// component to preview image upload
-export function ImageUploadPreview({
-    image,
-    alt,
-    className,
-}: {
-    image: File | string | null;
-    alt: string;
-    className?: string;
-}) {
-    const imageUrl = useMemo(() => {
-        if (image instanceof File) {
-            return URL.createObjectURL(image);
+export function ImageUploadPreview({source} : {source: File | string | null}) {
+    const [src, setSrc] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (source instanceof File) {
+            const objectUrl = URL.createObjectURL(source);
+            setSrc(objectUrl);
+
+            return () => {
+                URL.revokeObjectURL(objectUrl);
+            }
+        } else {
+            setSrc(source);
         }
-        return image;
-    }, [image]);
+    }, [source]);
 
-    if (!imageUrl) {
-        return null;
-    }
+    if(!src) return null;
 
     return (
-        <img
-            src={imageUrl}
-            className={className}
-            alt={alt}
-            onLoad={() => {
-                if (image instanceof File) {
-                    URL.revokeObjectURL(imageUrl);
-                }
-            }}
-        />
-    );
+        <img src={src} className="mt-2 h-32 w-32 rounded-lg object-cover" alt={'image preview'} />
+    )
 }
